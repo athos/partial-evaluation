@@ -5,8 +5,8 @@
 ;; Program Structure:
 ;; {:vars {:<var1> <val1>, :<var2> <val2>, ...}
 ;;  :commands
-;;  {1 [<command1>, ...],
-;;   2 [<command2>, ...],
+;;  {<label1> [<command1>, ...],
+;;   <label2> [<command2>, ...],
 ;;   ...}}
 
 ;; <command> :=
