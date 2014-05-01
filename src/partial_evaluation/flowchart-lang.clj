@@ -26,7 +26,7 @@
 ;; | [< <expr> <expr>]
 ;; | [> <expr> <expr>]
 
-(defn lookup [var env]
+(defn lookup [env var]
   (env var))
 
 (defn eval [env expr]
