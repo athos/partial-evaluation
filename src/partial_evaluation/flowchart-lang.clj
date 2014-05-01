@@ -29,6 +29,9 @@
 (defn lookup [env var]
   (env var))
 
+(defn update [env var val]
+  (assoc env var val))
+
 (defn eval [env expr]
   (cond (symbol? expr) (lookup expr env)
         (coll? expr)
