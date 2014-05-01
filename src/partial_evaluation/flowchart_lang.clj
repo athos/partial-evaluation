@@ -32,11 +32,18 @@
 (defn update [env var val]
   (assoc env var val))
 
+(defn pred->op [pred]
+  (fn [& args]
+    (if (apply pred args)
+      1
+      0)))
+
 (defn eval [env expr]
   (cond (symbol? expr) (lookup expr env)
         (coll? expr)
         #_=> (let [[op & args] expr
-                   fs {'+ +, '- -, '* *, '/ /, '= =, '< <, '> >}]
+                   fs {'+ +, '- -, '* *, '/ /,
+                       '= (pred->op =), '< (pred->op <), '> (pred->op >)}]
                (if-let [f (fs op)]
                  (apply f (map #(eval env %) args))))
         :else expr))
