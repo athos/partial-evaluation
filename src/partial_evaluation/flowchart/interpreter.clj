@@ -1,4 +1,4 @@
-(ns partial-evaluation.flowchart-lang
+(ns partial-evaluation.flowchart.interpreter
   (:refer-clojure :exclude [eval])
   (:require [clojure.core.match :refer [match]]))
 

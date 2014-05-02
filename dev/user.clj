@@ -1,6 +1,7 @@
 (ns user
-  (:require [clojure.tools.namespace.repl :refer [refresh refresh-all]]
-            [partial-evaluation.flowchart-lang :as flow]))
+  (:require clojure.repl
+            [clojure.tools.namespace.repl :refer [refresh refresh-all]]
+            [partial-evaluation.flowchart.interpreter :as flow]))
 
 (def env
   '{n 10, a 0, b 1, t 0})
