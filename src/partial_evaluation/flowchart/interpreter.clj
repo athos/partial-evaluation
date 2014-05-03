@@ -46,11 +46,12 @@
 
 (defn run [commands env program]
   (loop [[command & commands] commands, env env]
-    (match command
-      ['goto l] (recur (program l) env)
-      ['set! v e] (recur commands (update env v (eval env e)))
-      ['if test 'goto l1 'else l2]
-      #_=> (if (eval env test)
-             (recur (program l1) env)
-             (recur (program l2) env))
-      ['return e] (eval env e))))
+    (when-not (nil? command)
+      (match command
+        ['goto l] (recur (program l) env)
+        ['set! v e] (recur commands (update env v (eval env e)))
+        ['if test 'goto l1 'else l2]
+        #_=> (if (eval env test)
+               (recur (program l1) env)
+               (recur (program l2) env))
+        ['return e] (eval env e)))))
