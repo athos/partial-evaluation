@@ -49,8 +49,11 @@
                            (if (eval senv test)
                              (recur (program l1) senv code pending)
                              (recur (program l2) senv code pending))
-                           [(conj code command)
-                            (into pending (remove visited [[l1 senv] [l2 senv]]))])
+                           (let [command' ['if (fold senv test)
+                                           'goto [l1 senv]
+                                           'else [l2 senv]]]
+                             [(conj code command')
+                              (into pending (remove visited [[l1 senv] [l2 senv]]))]))
                     ['return e]
                     #_=> [(conj code ['return (fold senv e)]) pending]))))
             [code pending] (specialize-block (program pp))]
