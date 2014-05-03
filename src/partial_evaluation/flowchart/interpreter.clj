@@ -33,7 +33,7 @@
   (assoc env var val))
 
 (defn primitive-implementation [op]
-  (let [fs {'+ +, '- -, '* *, '/ /, '= =, '< <, '> >}]
+  (let [fs {'+ +, '- -, '* *, '/ /, '= =, '< <, '> >, 'first first, 'rest rest}]
     (fs op)))
 
 (defn eval [env expr]
