@@ -9,7 +9,7 @@
 
 (defn static? [division exp]
   (or (constant? exp)
-      (and (symbol? exp) (= (division exp) :static))
+      (and (symbol? exp) (boolean (division exp)))
       (and (coll? exp) (every? #(static? division %) (rest exp)))))
 
 (defn fold [senv exp]
