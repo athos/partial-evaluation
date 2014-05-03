@@ -38,13 +38,16 @@
       1
       0)))
 
+(defn primitive-implementation [op]
+  (let [fs {'+ +, '- -, '* *, '/ /,
+            '= (pred->op =), '< (pred->op <), '> (pred->op >)}]
+    (fs op)))
+
 (defn eval [env expr]
   (cond (symbol? expr) (lookup expr env)
         (coll? expr)
-        #_=> (let [[op & args] expr
-                   fs {'+ +, '- -, '* *, '/ /,
-                       '= (pred->op =), '< (pred->op <), '> (pred->op >)}]
-               (if-let [f (fs op)]
+        #_=> (let [[op & args] expr]
+               (if-let [f (primitive-implementation op)]
                  (apply f (map #(eval env %) args))))
         :else expr))
 
