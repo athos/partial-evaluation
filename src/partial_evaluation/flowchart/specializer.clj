@@ -5,7 +5,7 @@
   (:import clojure.lang.PersistentQueue))
 
 (defn constant? [exp]
-  (number? exp))
+  (or (number? exp) (true? exp) (false? exp)))
 
 (defn static? [division exp]
   (or (constant? exp)
@@ -46,7 +46,7 @@
                     #_=> (recur (program l) senv code pending)
                     ['if test 'goto l1 'else l2]
                     #_=> (if (static? division test)
-                           (if (= (eval senv test) 1)
+                           (if (eval senv test)
                              (recur (program l1) senv code pending)
                              (recur (program l2) senv code pending))
                            [(conj code command)

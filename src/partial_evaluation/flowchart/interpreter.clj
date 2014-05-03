@@ -32,15 +32,8 @@
 (defn update [env var val]
   (assoc env var val))
 
-(defn pred->op [pred]
-  (fn [& args]
-    (if (apply pred args)
-      1
-      0)))
-
 (defn primitive-implementation [op]
-  (let [fs {'+ +, '- -, '* *, '/ /,
-            '= (pred->op =), '< (pred->op <), '> (pred->op >)}]
+  (let [fs {'+ +, '- -, '* *, '/ /, '= =, '< <, '> >}]
     (fs op)))
 
 (defn eval [env expr]
@@ -57,7 +50,7 @@
       ['goto l] (recur (program l) env)
       ['set! v e] (recur commands (update env v (eval env e)))
       ['if test 'goto l1 'else l2]
-      #_=> (if (= (eval env test) 0)
-             (recur (program l2) env)
-             (recur (program l1) env))
+      #_=> (if (eval env test)
+             (recur (program l1) env)
+             (recur (program l2) env))
       ['return e] (eval env e))))
