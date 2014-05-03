@@ -4,11 +4,13 @@
             [partial-evaluation.flowchart.interpreter :refer [eval] :as interp])
   (:import clojure.lang.PersistentQueue))
 
-(defn static? [division var]
-  (= (division var) :static))
-
 (defn constant? [exp]
   (number? exp))
+
+(defn static? [division exp]
+  (or (constant? exp)
+      (and (symbol? exp) (= (division exp) :static))
+      (and (coll? exp) (every? #(static? division %) (rest exp)))))
 
 (defn fold [senv exp]
   (cond (symbol? exp) (or (senv exp) exp)
@@ -43,7 +45,7 @@
                     ['goto l]
                     #_=> (recur (program l) senv code pending)
                     ['if test 'goto l1 'else l2]
-                    #_=> (if (static? division test) ; FIXME: test may be an arbitrary expression
+                    #_=> (if (static? division test)
                            (if (= (eval senv test) 1)
                              (recur (program l1) senv code pending)
                              (recur (program l2) senv code pending))
